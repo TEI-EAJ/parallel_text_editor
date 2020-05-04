@@ -1,7 +1,11 @@
-# Parallel Text Viewer with IIIF and TEI
+# Parallel Text Editor with TEI
 
-## Example
+アンカーを使ったパラレルテキスト作成支援ツール
 
-### 絵入源氏物語（国文研所蔵） + 与謝野晶子訳（青空文庫）
+## 使用方法デモ
 
-https://tei-eaj.github.io/parallel_text_viewer/app/#/?u=https://tei-eaj.github.io/parallel_text_viewer/data/pt/config.json
+
+
+## サンプル
+
+https://tei-eaj.github.io/parallel_text_editor/app/#/?main=https://genji.dl.itc.u-tokyo.ac.jp/data/tei/koui/01.xml&sub=https://genji.dl.itc.u-tokyo.ac.jp/data/tei/yosano/01.xml
