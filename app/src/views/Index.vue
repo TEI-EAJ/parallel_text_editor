@@ -97,7 +97,7 @@
                 <v-jsoneditor class="my-5" v-model="json" :options="options" :plus="true" height="600px" @error="onError"/>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="primary darken-1" @click="updateDialogData()">{{$t("update")}}</v-btn>
+                  <v-btn color="primary" @click="updateDialogData()">{{$t("update")}}</v-btn>
                   <v-btn color="darken-1" @click="dialogFlag = false">{{$t("close")}}</v-btn>
                 </v-card-actions>
               </v-container>
@@ -138,7 +138,7 @@
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" @click="importAction()">{{$t("import")}}</v-btn>
+          <v-btn color="primary" @click="importAction()">{{$t("import")}}</v-btn>
           <v-btn color="darken-1" @click="importFlag = false">{{$t("close")}}</v-btn>
         </v-card-actions>
       </v-card>
@@ -152,13 +152,13 @@
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary darken-1" @click="importDataFromLs(); confirmFlag = false;">{{$t("yes")}}</v-btn>
-          <v-btn color="error darken-1" @click="importDataFromUrl(); confirmFlag = false">{{$t("no")}}</v-btn>
+          <v-btn color="primary" @click="importDataFromLs(); confirmFlag = false;">{{$t("yes")}}</v-btn>
+          <v-btn color="darken-1" @click="importDataFromUrl(); confirmFlag = false">{{$t("no")}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="addFlag" max-width="80%">
+    <v-dialog v-model="addFlag" max-width="60%">
       <v-card class="pb-5">
         <v-card-title class="headline grey lighten-2" primary-title>{{$t("add_dialog")}}</v-card-title>
         <div class="pa-5">
@@ -183,9 +183,9 @@
           </v-row>
         </div>
         <v-card-actions>
-          <v-btn :loading="loadingFlag" :disabled="loadingFlag" color="info darken-1" @click="setExamples(0)">{{$t("sample")}} 1</v-btn>
+          <v-btn v-for="(obj, index) in samples" :key="index" :loading="loadingFlag" :disabled="loadingFlag" color="info" @click="setExamples(index)">{{$t(obj.description)}}</v-btn>
           <v-spacer></v-spacer>
-          <v-btn :loading="loadingFlag" :disabled="loadingFlag" color="primary darken-1" @click="updateUrls()">{{$t("update")}}</v-btn>
+          <v-btn :loading="loadingFlag" :disabled="loadingFlag" color="primary" @click="updateUrls()">{{$t("update")}}</v-btn>
           <v-btn :loading="loadingFlag" :disabled="loadingFlag" color="darken-1" @click="addFlag = false">{{$t("close")}}</v-btn>
         </v-card-actions>
       </v-card>
@@ -237,17 +237,21 @@ export default {
       importData : "",
 
       confirmFlag : false,
-
       addFlag : false,
-
       loadingFlag: false,
-
       advancedFlag : false,
+      lsMainFlag : false,
 
       samples : [
         {
           url_main : "https://genji.dl.itc.u-tokyo.ac.jp/data/tei/koui/01.xml",
-          url_sub : "https://genji.dl.itc.u-tokyo.ac.jp/data/tei/yosano/01.xml"
+          url_sub : "https://genji.dl.itc.u-tokyo.ac.jp/data/tei/yosano/01.xml",
+          description : "アンカー付与済みのサンプル"
+        },
+        {
+          url_main : "https://kouigenjimonogatari.github.io/tei/03.xml",
+          url_sub : "https://genji.dl.itc.u-tokyo.ac.jp/data/tei/yosano/03.xml",
+          description : "アンカー未付与のサンプル"
         }
       ]
     };
@@ -294,6 +298,8 @@ export default {
       }
     }
 
+    this.lsMainFlag = lsMainFlag
+
     if(lsMainFlag){
       this.confirmFlag = true
     } else {
@@ -301,11 +307,6 @@ export default {
     }
   },
   watch: {
-    /*
-    $route() {
-      //this.search();
-    },
-    */
     dialogData: {
       handler : function (val) {
         this.json = val.elements
@@ -355,7 +356,10 @@ export default {
       this.updateDataFromUrls()
     },
     updateDataFromUrls(){
-      var result = window.confirm(this.$t("編集中のデータが削除されます。本当によろしいですね？")+"\n"+this.$t("必要に応じて現在の編集内容をエクスポートしてください。"));
+      let result = true
+      if(this.lsMainFlag){
+        result = window.confirm(this.$t("編集中のデータが削除されます。本当によろしいですね？")+"\n"+this.$t("必要に応じて現在の編集内容をエクスポートしてください。"));
+      }
     
       if( result ) {
           this.loadingFlag = true
@@ -363,6 +367,8 @@ export default {
           this.exec2sub();
           this.loadingFlag = false
           this.addFlag = false
+
+          this.$router.push({ query: { main: this.url_main, sub: this.url_sub }})
       }
     },
     scroll(target_id, window_id) {
@@ -486,7 +492,8 @@ export default {
         return
       }
 
-      
+      this.dialogFlag = false
+
       let texts = [divided_text[0], input_text + divided_text[1]]
   
       //削除
@@ -510,12 +517,9 @@ export default {
           type : "text"
       })
 
-      
-      this.dialogData.elements = elements
-
       this.afterMethod()
 
-      this.dialogFlag = false
+      this.dialogData.elements = elements
     },
     export2(){
       var options = {compact: false, ignoreComment: true, spaces: 4};

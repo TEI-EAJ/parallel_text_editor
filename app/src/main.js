@@ -48,7 +48,13 @@ const messages = {
 
     divide_err_message : "Error in Input Text.",
 
-    sample : "Example"
+    sample : "Example",
+
+    "アンカー付与済みのサンプル" : "Example 1",
+    "アンカー未付与のサンプル" : "Example 2",
+
+    "編集中のデータが削除されます。本当によろしいですね？" : "Editing data will be deleted. Are you sure?",
+    "必要に応じて現在の編集内容をエクスポートしてください。" : "If necessary, please export current editing data.",
   },
   ja: {
     title: "TEI Anchor Editor",
@@ -82,7 +88,13 @@ const messages = {
 
     divide_err_message : "入力されたテキストに誤りがあります。",
 
-    sample : "サンプル"
+    sample : "サンプル",
+
+    "アンカー付与済みのサンプル" : "アンカー付与済みのサンプル",
+    "アンカー未付与のサンプル" : "アンカー未付与のサンプル",
+
+    "編集中のデータが削除されます。本当によろしいですね？" : "編集中のデータが削除されます。本当によろしいですね？",
+    "必要に応じて現在の編集内容をエクスポートしてください。" : "必要に応じて現在の編集内容をエクスポートしてください。",
   }
 }
 
