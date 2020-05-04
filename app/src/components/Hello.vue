@@ -137,8 +137,8 @@
             </template>
             {{obj.attributes.corresp}}
           </v-tooltip>
-          
-          <span :class="'tei-'+obj.name">
+    
+          <span :class="'tei-'+obj.name" @dblclick="editBtnClick(obj)">
             <Hello
               :key="key"
               v-if="obj.elements"

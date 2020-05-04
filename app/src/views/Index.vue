@@ -13,7 +13,9 @@
         <v-btn icon @click="importFlag = true">
           <v-icon>mdi-import</v-icon>
         </v-btn>
-
+        <v-btn icon href="https://github.com/TEI-EAJ/parallel_text_editor" target="_blank">
+          <v-icon>mdi-github-circle</v-icon>
+        </v-btn>
         <v-btn text @click="changeLocale">
           {{$t("change_locale")}}
         </v-btn>
@@ -181,8 +183,8 @@
           </v-row>
         </div>
         <v-card-actions>
-          <v-spacer></v-spacer>
           <v-btn :loading="loadingFlag" :disabled="loadingFlag" color="info darken-1" @click="setExamples(0)">{{$t("sample")}} 1</v-btn>
+          <v-spacer></v-spacer>
           <v-btn :loading="loadingFlag" :disabled="loadingFlag" color="primary darken-1" @click="updateUrls()">{{$t("update")}}</v-btn>
           <v-btn :loading="loadingFlag" :disabled="loadingFlag" color="darken-1" @click="addFlag = false">{{$t("close")}}</v-btn>
         </v-card-actions>
@@ -244,8 +246,8 @@ export default {
 
       samples : [
         {
-          url_main : "https://webpark5032.sakura.ne.jp/tmp/genji/01_main.xml",
-          url_sub : "https://webpark5032.sakura.ne.jp/tmp/genji/01.xml"
+          url_main : "https://genji.dl.itc.u-tokyo.ac.jp/data/tei/koui/01.xml",
+          url_sub : "https://genji.dl.itc.u-tokyo.ac.jp/data/tei/yosano/01.xml"
         }
       ]
     };
@@ -353,11 +355,15 @@ export default {
       this.updateDataFromUrls()
     },
     updateDataFromUrls(){
-      this.loadingFlag = true
-      this.exec2main();
-      this.exec2sub();
-      this.loadingFlag = false
-      this.addFlag = false
+      var result = window.confirm(this.$t("編集中のデータが削除されます。本当によろしいですね？")+"\n"+this.$t("必要に応じて現在の編集内容をエクスポートしてください。"));
+    
+      if( result ) {
+          this.loadingFlag = true
+          this.exec2main();
+          this.exec2sub();
+          this.loadingFlag = false
+          this.addFlag = false
+      }
     },
     scroll(target_id, window_id) {
       if(!document.querySelector("#" + target_id)){
