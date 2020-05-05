@@ -116,6 +116,7 @@
         <span :key="key" 
         :id="'anchor-'+getAnchorId(obj)"
         @click="anchorClick(getAnchorId(obj))" dark
+        style="cursor: pointer;"
         v-on:mouseover="mouseover(getAnchorId(obj))" :style="getAnchorId(obj) === lineId ? 'background-color : rgba(255,165,0, 0.5);' : ''"
         >
           <v-icon color="blue darken-2">mdi-anchor</v-icon>
@@ -138,7 +139,7 @@
             {{obj.attributes.corresp}}
           </v-tooltip>
     
-          <span :class="'tei-'+obj.name" @dblclick="editBtnClick(obj)">
+          <span :class="'tei-'+obj.name" @dblclick="editBtnClick(obj)" style="cursor: pointer;">
             <Hello
               :key="key"
               v-if="obj.elements"
@@ -154,9 +155,9 @@
         <component :is="childDiv(obj) == 'div' ? 'div' : 'span'" :key="key" :style="obj.attributes['xml:id'] === lineId ? 'background-color : rgba(255,165,0, 0.5);' : ''"
         v-on:mouseover="mouseover(obj.attributes['xml:id'])" @click="selectSub(obj.attributes['xml:id'])"
         >
-          <span :id="'line-'+obj.attributes['xml:id']" style="color : #1976D2;" :style="obj.attributes['xml:id'] === subLineId ? 'color : #ff5252;' : ''">{{obj.attributes["xml:id"]}}</span>
+          <span :id="'line-'+obj.attributes['xml:id']" style="color : #1976D2; cursor: pointer;" :style="obj.attributes['xml:id'] === subLineId ? 'color : #ff5252;' : ''">{{obj.attributes["xml:id"]}}</span>
           
-          <span :class="'tei-'+obj.name" >
+          <span :class="'tei-'+obj.name" style="cursor: pointer;">
             <Hello
               
               :key="key"
