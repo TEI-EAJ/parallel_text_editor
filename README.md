@@ -32,7 +32,7 @@ https://tei-eaj.github.io/parallel_text_editor/app/#/?main=https://genji.dl.itc.
 
 ### アンカーの削除（高度なオプション：改善予定）
 
-URL引数に「advanced=true」を追加すると、編集ダイアログにJSONエディタが表示されます。削除したいアンカーの情報を削除してください。
+URL引数に「advanced=true」を追加すると、編集ダイアログにJSONエディタが表示されます。当該アンカーに関する記述を削除してください。
 
 ### データのエクスポート
 
