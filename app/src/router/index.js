@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import index from '../views/Index.vue'
 import v2 from '../views/v2.vue'
+import v3 from '../views/v3.vue'
 
 Vue.use(VueRouter)
 
@@ -16,6 +17,11 @@ const routes = [
     path: '/v2',
     name: 'v2',
     component: v2
+  },
+  {
+    path: '/v3',
+    name: 'v3',
+    component: v3
   }
 ]
 

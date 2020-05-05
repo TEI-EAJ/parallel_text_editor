@@ -13,7 +13,7 @@
       </v-toolbar>
 
       <div :style="'height: '+height+'px; overflow-wrap: break-word; word-break: break-all;'">
-        <splitpanes class="default-theme">
+        <splitpanes class="default-theme" horizontal="horizontal">
           <pane min-size="20">
             <iframe
               class="py-2 px-2"
