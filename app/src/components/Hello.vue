@@ -198,9 +198,6 @@
 </template>
 
 <script>
-
-import { uuid } from "vue-uuid";
-
 export default {
   name: "Hello",
   props: ["elements", "flg", "parent"],
@@ -218,27 +215,7 @@ export default {
       get() { return this.$store.getters.subLineId}
     }
   },
-  mounted() {
-    this.init();
-  },
-  /*
-  watch: {
-    elements: function() {
-      this.init();
-    }
-  },
-  */
   methods: {
-    init() {
-      let elements = this.elements;
-      if (elements != null) {
-        for (let i = 0; i < elements.length; i++) {
-          let obj = elements[i];
-          obj.id = uuid.v1();
-        }
-      }
-      //console.log(elements)
-    },
     style(dat) {
       let color = "0,0,255"; //blue
       if (dat == "persName" || dat == "rs") {

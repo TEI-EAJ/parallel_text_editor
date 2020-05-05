@@ -46,9 +46,7 @@
         <v-card-title class="headline grey lighten-2" primary-title>{{$t("edit_dialog")}}</v-card-title>
           <div class="pa-5">
             <template v-for="(element, index) in dialogData.elements">
-              
               <template v-if="element.type=='text' && inputs.length > 0">
-
                 <v-card :key="index" class="mb-10 pa-10">
                     <h3>{{element.text}}</h3>
 
@@ -86,7 +84,24 @@
                       </v-col>
                     </v-row>
                 </v-card>
-                <!-- <hr :key="'hr-'+index" class="my-5"/> -->
+              </template>
+
+              <template v-else-if="element.attributes && element.attributes.corresp">
+                <v-card :key="index" class="mb-10 pa-10">
+                  <h3 class="mb-5"><v-icon color="blue darken-2">mdi-anchor</v-icon> {{element.attributes.corresp.split("#")[1]}}</h3>
+                  <v-row>
+                    <v-col cols="12" md="12">
+                      <v-btn
+                        block
+                        color="error"
+                        @click="deleteAnchor(index)"
+                        large
+                      >
+                        {{$t("delete")}}
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card>
               </template>
             </template>
 
@@ -94,7 +109,7 @@
               
               <v-container class="pa-10">
                 <h3>{{$t("advanced_option")}}: {{$t("json_editor")}}</h3>
-                <v-jsoneditor class="my-5" v-model="json" :options="options" :plus="true" height="600px" @error="onError"/>
+                <v-jsoneditor class="my-5" v-model="json_editor_data" :options="options" :plus="true" height="600px" @error="onError"/>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" @click="updateDialogData()">{{$t("update")}}</v-btn>
@@ -224,7 +239,7 @@ export default {
       data_sub: null,
 
 
-      json: [],
+      json_editor_data: [],
 
       inputs: [],
 
@@ -309,12 +324,12 @@ export default {
   watch: {
     dialogData: {
       handler : function (val) {
-        this.json = val.elements
+        this.json_editor_data = val.elements
 
         this.inputs = []
 
-        if(this.json){
-          for(let i = 0; i < this.json.length; i++){
+        if(this.json_editor_data){
+          for(let i = 0; i < this.json_editor_data.length; i++){
             this.inputs.push({
               text : "",
               id : this.subLineId ? this.subLineId : ""
@@ -329,6 +344,17 @@ export default {
     },
     subLineId: function(){
       this.scroll("anchor-"+this.subLineId, "main")
+      
+      
+      this.inputs = []
+      if(this.json_editor_data){
+        for(let i = 0; i < this.json_editor_data.length; i++){
+          this.inputs.push({
+            text : "",
+            id : this.subLineId ? this.subLineId : ""
+          })
+        }
+      }  
     }
   },
   methods: {
@@ -368,7 +394,7 @@ export default {
           this.loadingFlag = false
           this.addFlag = false
 
-          this.$router.push({ query: { main: this.url_main, sub: this.url_sub }})
+          this.$router.push({ query: { main: this.url_main, sub: this.url_sub, advanced: this.advancedFlag }})
       }
     },
     scroll(target_id, window_id) {
@@ -469,7 +495,7 @@ export default {
 
     updateDialogData: function(){
       let newData = Object.create(this.dialogData)
-      newData.elements = this.json
+      newData.elements = this.json_editor_data
       this.dialogData = newData
 
       this.dialogFlag = false
@@ -516,6 +542,34 @@ export default {
           text : texts[1],
           type : "text"
       })
+
+      this.afterMethod()
+
+      this.dialogData.elements = elements
+    },
+    deleteAnchor(index) {
+      
+      //これを行わない場合、dialogData変更のwatchが効かなかった。
+      let elements = Object.assign([], this.dialogData.elements)
+
+      let text_combined = ""
+
+      if(index != 0){
+        text_combined += elements[index-1].text
+      }
+
+
+      text_combined += elements[index+1].text
+
+      elements[index + 1].text = text_combined
+
+      elements.splice(index, 1)
+
+      if(index!= 0){
+        elements.splice(index-1, 1)
+      }
+
+      this.dialogFlag = false
 
       this.afterMethod()
 

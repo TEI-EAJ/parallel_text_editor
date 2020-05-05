@@ -24,6 +24,7 @@ const messages = {
     no : "No",
 
     add : "Add",
+    delete : "Delete",
     update : "Update",
     close: "Close",
     import: 'Import',
@@ -63,6 +64,7 @@ const messages = {
     no : "いいえ",
 
     add : "追加",
+    delete : "削除",
     update : "更新",
 
     close: "閉じる",
