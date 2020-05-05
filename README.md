@@ -2,6 +2,8 @@
 
 アンカーを使ったパラレルテキスト作成支援ツール
 
+https://tei-eaj.github.io/parallel_text_editor/app/#/
+
 ## 使用方法デモ
 
 https://youtu.be/hOp_PxYUrZk
