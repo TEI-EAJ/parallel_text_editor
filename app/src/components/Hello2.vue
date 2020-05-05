@@ -238,7 +238,7 @@ export default {
 
       var listener = function(e){
 
-          e.clipboardData.setData("text/plain" , line_id);    
+          e.clipboardData.setData("text/plain" , "[" + line_id + "]");    
           // 本来のイベントをキャンセル
           e.preventDefault();
           // 終わったら一応削除
